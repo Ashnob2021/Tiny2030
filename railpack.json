@@ -1,13 +1,6 @@
 {
   "$schema": "https://schema.railpack.com",
 
-  "buildAptPackages": [
-    "...",
-    "curl",
-    "unzip",
-    "ca-certificates"
-  ],
-
   "steps": {
     "xray": {
       "commands": [
@@ -15,11 +8,22 @@
         "unzip -o /tmp/xray.zip xray -d /app",
         "chmod +x /app/xray",
         "rm -f /tmp/xray.zip"
+      ],
+      "deployOutputs": [
+        "xray"
       ]
     }
   },
 
   "deploy": {
+    "inputs": [
+      {
+        "step": "xray",
+        "include": [
+          "xray"
+        ]
+      }
+    ],
     "paths": [
       "/app"
     ]
