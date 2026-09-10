@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.railpack.com",
+
+  "buildAptPackages": [
+    "curl",
+    "unzip",
+    "ca-certificates"
+  ],
+
+  "steps": {
+    "xray": {
+      "commands": [
+        "curl -L https://github.com/XTLS/Xray-core/releases/download/v26.6.27/Xray-linux-64.zip -o /tmp/xray.zip",
+        "unzip -o /tmp/xray.zip xray -d /app",
+        "chmod +x /app/xray",
+        "rm -f /tmp/xray.zip"
+      ],
+      "deployOutputs": [
+        "xray"
+      ]
+    }
+  },
+
+  "deploy": {
+    "inputs": [
+      "...",
+      {
+        "step": "xray",
+        "include": [
+          "xray"
+        ]
+      }
+    ],
+    "paths": [
+      "/app"
+    ]
+  }
+}
